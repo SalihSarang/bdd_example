@@ -10,18 +10,62 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  bool get isButtonEnabled =>
+      emailController.text.isNotEmpty && passwordController.text.isNotEmpty;
+
   void login() {
-    if (emailController.text == 'testuser@gmail.com' &&
-        passwordController.text == 'password123') {
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    if (email.isEmpty) {
+      _showSnackBar('Email cannot be empty');
+      return;
+    }
+
+    if (!email.contains('@')) {
+      _showSnackBar('Enter a valid email');
+      return;
+    }
+
+    if (password.isEmpty) {
+      _showSnackBar('Password cannot be empty');
+      return;
+    }
+
+    if (password.length < 6) {
+      _showSnackBar('Password too short');
+      return;
+    }
+
+    if (email == 'testuser@gmail.com' && password == 'password123') {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const HomeScreen()),
       );
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid credentials')));
+      _showSnackBar('Invalid credentials');
     }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    emailController.addListener(() => setState(() {}));
+    passwordController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
               controller: emailController,
               decoration: const InputDecoration(labelText: 'Email'),
             ),
+            const SizedBox(height: 10),
             TextField(
               key: const ValueKey('passwordField'),
               controller: passwordController,
@@ -47,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               key: const ValueKey('loginButton'),
-              onPressed: login,
+              onPressed: isButtonEnabled ? login : null,
               child: const Text('Login'),
             ),
           ],
