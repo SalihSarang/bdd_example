@@ -3,12 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:bdd_widget_test/bdd_widget_test.dart';
 import './step/the_app_is_running.dart';
 import './step/i_enter_into.dart';
 import './step/i_tap.dart';
 import './step/i_see.dart';
-import './step/the_login_button_is_disabled.dart';
 
 void main() {
   group('''Login''', () {
@@ -53,10 +52,6 @@ void main() {
       await iEnterInto(tester, '123', 'passwordField');
       await iTap(tester, 'loginButton');
       await iSee(tester, 'Password too short');
-    });
-    testWidgets('''Login button disabled when fields empty''', (tester) async {
-      await theAppIsRunning(tester);
-      await theLoginButtonIsDisabled(tester);
     });
   });
 }

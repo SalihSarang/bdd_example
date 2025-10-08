@@ -1,0 +1,21 @@
+name: Flutter BDD Widget Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  bdd_widget_tests:
+    runs-on: ubuntu-latest 
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.1'
+
+      - run: flutter pub get
+      - run: flutter test

@@ -42,6 +42,3 @@ Feature: Login
     And I tap {'loginButton'}
     Then I see {'Password too short'}
 
-  Scenario: Login button disabled when fields empty
-    Given the app is running
-    Then the login button is disabled

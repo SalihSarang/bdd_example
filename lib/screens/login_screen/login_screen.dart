@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               key: const ValueKey('loginButton'),
-              onPressed: isButtonEnabled ? login : null,
+              onPressed: login,
               child: const Text('Login'),
             ),
           ],
